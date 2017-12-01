@@ -14,7 +14,7 @@ Import data
 ```{r}
 # datachunk: TAS
 
-cr.sed <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/RAW_core_matter_2017.csv", stringsAsFactors = FALSE, header = TRUE)
+cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/RAW_core_matter_2017.csv", stringsAsFactors = FALSE, header = TRUE)
 ```
 
 # Cleaning Data for Analysis
@@ -25,7 +25,7 @@ Calculate dry weights, organic matter, inorganic matter
 
 
 # piped calculations for all
-cr.sed = cr.sed %>% 
+cr.mat = cr.mat %>% 
   mutate(sed_ww_pre_60C = pan_sediment_ww_pre_60C - pan_weight, na.rm = TRUE) %>%
   mutate(sed_dw_post_60C = pan_sediment_dw_post_60C - pan_weight, na.rm = TRUE) %>%
   mutate(dry_bulk_density = sed_dw_post_60C / sample_volume, na.rm = TRUE) %>%
@@ -40,20 +40,26 @@ cr.sed = cr.sed %>%
   mutate(om.im_ratio = om_weight / im_weight, na.rm = TRUE)
 
 # check new column names
-colnames(cr.sed)
+colnames(cr.mat)
 
-summary(om_weight)
 
 # remove pan and crucible combo weights (not necessary for analysis) 
-#cr.sed = cr.sed %>% 
-  #select(-pan_weight, -pan_sediment_ww_pre_60C, -pan_sediment_dw_post_60C, -pan_sediment_dw_pre_450C, -pan_sediment_dw_post450C, -crucible_weight, -crucible_sediment_dw_pre_950C, -crucible_sediment_dw_post_950C, -sed_dw_post_60C, -sed_ww_pre_60C, -sed_dw_post_450C, -sed_dw_post_450C, -sed_dw_post_950C, -sed_dw_pre_950, -layer_volume)
+cr.mat = cr.mat %>% 
+  select(-pan_weight, -pan_sediment_ww_pre_60C, -pan_sediment_dw_post_60C, -pan_sediment_dw_pre_450C, -pan_sediment_dw_post450C, -crucible_weight, -crucible_sediment_dw_pre_950C, -crucible_sediment_dw_post_950C, -sed_dw_post_60C, -sed_ww_pre_60C, -sed_dw_post_450C, -sed_dw_post_450C, -sed_dw_post_950C, -sed_dw_pre_950C, -layer_volume)
+```
+
+
+```{r}
+write.csv(cr.mat,'CLEAN_core_matter_2017.csv')
 ```
 
 
 
+# READ CLEAN FILE
 
-
-
+```{r}
+cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/CLEAN_core_matter_2017.csv", stringsAsFactors = FALSE, header = TRUE)
+```
 
 
 
