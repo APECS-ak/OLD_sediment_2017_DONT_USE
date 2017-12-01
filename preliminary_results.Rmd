@@ -10,6 +10,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+```{r Libraries, echo = FALSE, include=FALSE}
+library(dplyr); library(tidyr); library(ggplot2)
+theme_set(theme_classic())
+```
+
+
 
 # READ CLEAN FILE
 
@@ -18,6 +24,10 @@ cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/mas
 ```
 
 
+```{r}
+ggplot(cr.mat, aes(site, percent_om)) +
+  geom_col()
+```
 
 
 
