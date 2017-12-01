@@ -68,11 +68,22 @@ cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/mas
 ```{r}
 library(DT)
 
+cr.mat = sg.bio %>% 
+ select(-site$L06)
+
 ggplot(cr.mat, aes(layer_number, om_density)) +
   geom_point() +
   geom_point() +
   coord_flip() +
   facet_wrap(~site)
 ```
+
+
+
+
+
+
+
+
 
 
