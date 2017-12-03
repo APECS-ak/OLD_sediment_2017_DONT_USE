@@ -76,7 +76,7 @@ plot_grid(plot_om, plot_im, align = "hv", ncol = 2)
 ## From which sites have cores been processed and data entered? 
 ```{r, echo = FALSE, message = FALSE}
 locations = cr.mat_noL06 %>%
-  distinct(cr.mat_noL06, latitude, longitude) %>%
+  distinct(cr.mat_noL06, latitude, longitude, site) %>%
   drop_na()
 
 
@@ -85,7 +85,7 @@ locations = cr.mat_noL06 %>%
 
 leaflet(locations) %>%
   addTiles() %>%
-  addMarkers(~longitude, ~latitude, popup = ~cr.mat_noL06$site)
+  addMarkers(~longitude, ~latitude, popup = ~site)
 ```
 
 
