@@ -32,12 +32,6 @@ cr.mat = cr.mat %>%
 colnames(cr.mat)
 ```
 
-# Mapping
-```{r}
-locations = cr.mat_noL06 %>%
-  distinct(Location, Latitude, Longitude) %>%
-  drop_na()
-```
 
 
 # Plotting
@@ -45,12 +39,12 @@ locations = cr.mat_noL06 %>%
 ```{r fig1, fig.height = 10, fig.width = 8, echo = FALSE, warning = FALSE}
 
 
-cr.mat_noL06 = cr.mat[-c(1:30),]
+cr.mat_noL06 = cr.mat[-c(1:30),] # remove L06 (for now) because organic matter is off the scale
 
-cr.mat_noL06$otter_region=factor(cr.mat_noL06$otter_region, levels=c("Low","Mid","High"))
+cr.mat_noL06$otter_region=factor(cr.mat_noL06$otter_region, levels=c("Low","Mid","High")) # order zones
 
 
-
+# plot organic matter
 plot_om = ggplot(cr.mat_noL06, aes(layer_number, om_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
@@ -62,6 +56,7 @@ plot_om = ggplot(cr.mat_noL06, aes(layer_number, om_density)) +
   #scale_y_continuous(position = "left") +
   facet_wrap(~otter_region, ncol = 1)
 
+#plopt inorganic matter
 plot_im = ggplot(cr.mat_noL06, aes(layer_number, im_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
@@ -73,10 +68,24 @@ plot_im = ggplot(cr.mat_noL06, aes(layer_number, im_density)) +
   #scale_y_continuous(position = "left") +
   facet_wrap(~otter_region, ncol = 1)
 
+# organize om and im side-by-side
 plot_grid(plot_om, plot_im, align = "hv", ncol = 2)
-
-
 ```
 
+# Mapping
+## From which sites have cores been processed and data entered? 
+```{r, echo = FALSE, message = FALSE}
+locations = cr.mat_noL06 %>%
+  distinct(cr.mat_noL06, latitude, longitude) %>%
+  drop_na()
+
+
+
+# turn into leaflet map
+
+leaflet(locations) %>%
+  addTiles() %>%
+  addMarkers(~longitude, ~latitude, popup = ~cr.mat_noL06$site)
+```
 
 
