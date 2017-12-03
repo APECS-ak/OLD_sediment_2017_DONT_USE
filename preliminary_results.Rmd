@@ -1,5 +1,5 @@
 ---
-title: "Preliminary_results"
+title: "Preliminary Results"
 author: "Tiff Stephens"
 date: "12/1/2017"
 output: html_document
@@ -7,17 +7,12 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-
 ```{r, include=FALSE}
-library(dplyr); library(tidyr); library(ggplot2); library(DT)
+library(dplyr); library(tidyr); library(ggplot2); library(DT); library(cowplot); library(leaflet)
 theme_set(theme_classic())
 ```
 
-Importing cleaned .csv file and looking at dataframe
+#Importing cleaned .csv file and looking at dataframe
 ```{r}
 # read clean file from github
 cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/CLEAN_core_matter.csv", stringsAsFactors = FALSE, header = TRUE)
@@ -26,19 +21,28 @@ cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/mas
 str(cr.mat)
 ```
 
-Remove excess columns (e.g. pan + crucible data recorded prior to final calcualted weights)
+#Remove excess columns (e.g. pan + crucible data recorded prior to final calcualted weights)
 ```{r}
 
-# remove pan and crucible combo weights (not necessary for analysis) 
+# remove pan, crucible, and sediment combo weights not necessary for analysis
 cr.mat = cr.mat %>% 
-  select(-na.rm, -pan_weight, -pan_number, -pan_sediment_ww_pre_60C, -pan_sediment_dw_post_60C, -pan_sediment_dw_pre_450C, -pan_sediment_dw_post450C, -crucible_weight, -crucible_sediment_dw_pre_950C, -crucible_sediment_dw_post_950C, -sed_dw_post_60C, -sed_ww_pre_60C, -sediment_dw_pre_450C, -sed_dw_post_450C, -sed_dw_post_950C, -sed_dw_pre_950C, -layer_volume)
+  select(-na.rm, -pan_number, -pan_weight, -pan_sed_ww_pre_60C, -pan_sed_dw_post_60C, -pan_sed_dw_pre_450C, -pan_sed_dw_post450C, -crucible_weight, -crucible_sed_dw_pre_950C, -crucible_sed_dw_post_950C, -sed_ww_pre_60C, -sed_dw_post_60C, -sed_dw_pre_450C, -sed_dw_post_450C, -sed_dw_pre_950C, -sed_dw_post_950C)
 
 
 colnames(cr.mat)
 ```
 
+# Mapping
+```{r}
+locations = cr.mat_noL06 %>%
+  distinct(Location, Latitude, Longitude) %>%
+  drop_na()
+```
 
-```{r, echo = FALSE, warning = FALSE}
+
+# Plotting
+## Grouped by sea otter zone
+```{r fig1, fig.height = 10, fig.width = 8, echo = FALSE, warning = FALSE}
 
 
 cr.mat_noL06 = cr.mat[-c(1:30),]
@@ -47,12 +51,31 @@ cr.mat_noL06$otter_region=factor(cr.mat_noL06$otter_region, levels=c("Low","Mid"
 
 
 
-ggplot(cr.mat_noL06, aes(layer_number, om_density)) +
-  stat_summary(fun.y=mean, geom="point", position="dodge")+
-  stat_summary(fun.data=mean_se, geom="errorbar", position=position_dodge(width=0.90), width=0.2) +
+plot_om = ggplot(cr.mat_noL06, aes(layer_number, om_density)) +
+  stat_summary(fun.y=mean, geom="point")+
+  stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
   coord_flip() +
-  #geom_errorbar(aes(xmin=om_density-se, ymax=len+se), colour="black", width=.1) +
+  scale_x_reverse() +
+  xlab("Core Depth") +
+  ylab("Organic Matter (g cm^3)") +
+  #scale_x_continuous(position = "top") +
+  #scale_y_continuous(position = "left") +
   facet_wrap(~otter_region, ncol = 1)
+
+plot_im = ggplot(cr.mat_noL06, aes(layer_number, im_density)) +
+  stat_summary(fun.y=mean, geom="point")+
+  stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
+  coord_flip() +
+  scale_x_reverse() +
+  xlab("Core Depth") +
+  ylab("Inorganic Matter (g cm^3)") +
+  #scale_x_continuous(position = "top") +
+  #scale_y_continuous(position = "left") +
+  facet_wrap(~otter_region, ncol = 1)
+
+plot_grid(plot_om, plot_im, align = "hv", ncol = 2)
+
+
 ```
 
 
