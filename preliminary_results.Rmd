@@ -3,6 +3,8 @@ title: "Preliminary_results"
 author: "Tiff Stephens"
 date: "12/1/2017"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -10,22 +12,34 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r Libraries, echo = FALSE, include=FALSE}
-library(dplyr); library(tidyr); library(ggplot2)
+```{r, include=FALSE}
+library(dplyr); library(tidyr); library(ggplot2); library(DT)
 theme_set(theme_classic())
 ```
 
-
-
-# READ CLEAN FILE
-
+Importing cleaned .csv file and looking at dataframe
 ```{r}
+# read clean file from github
 cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/CLEAN_core_matter.csv", stringsAsFactors = FALSE, header = TRUE)
+
+# check 
+str(cr.mat)
+```
+
+Remove excess columns (e.g. pan + crucible data recorded prior to final calcualted weights)
+```{r}
+
+# remove pan and crucible combo weights (not necessary for analysis) 
+cr.mat = cr.mat %>% 
+  select(-na.rm, -pan_weight, -pan_number, -pan_sediment_ww_pre_60C, -pan_sediment_dw_post_60C, -pan_sediment_dw_pre_450C, -pan_sediment_dw_post450C, -crucible_weight, -crucible_sediment_dw_pre_950C, -crucible_sediment_dw_post_950C, -sed_dw_post_60C, -sed_ww_pre_60C, -sediment_dw_pre_450C, -sed_dw_post_450C, -sed_dw_post_950C, -sed_dw_pre_950C, -layer_volume)
+
+
+colnames(cr.mat)
 ```
 
 
-```{r, echo = FALSE warning = FALSE}
-library(DT)
+```{r, echo = FALSE, warning = FALSE}
+
 
 cr.mat_noL06 = cr.mat[-c(1:30),]
 
