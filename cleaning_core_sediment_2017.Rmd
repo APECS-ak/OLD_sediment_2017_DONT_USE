@@ -37,14 +37,14 @@ Calculate dry weights, organic matter, inorganic matter
 
 # piped calculations for all
 cr.mat = cr.mat %>% 
-  mutate(sed_ww_pre_60C = pan_sediment_ww_pre_60C - pan_weight, na.rm = TRUE) %>%
-  mutate(sed_dw_post_60C = pan_sediment_dw_post_60C - pan_weight, na.rm = TRUE) %>%
+  mutate(sed_ww_pre_60C = pan_sed_ww_pre_60C - pan_weight, na.rm = TRUE) %>%
+  mutate(sed_dw_post_60C = pan_sed_dw_post_60C - pan_weight, na.rm = TRUE) %>%
   mutate(dry_bulk_density = sed_dw_post_60C / sample_volume, na.rm = TRUE) %>%
-  mutate(sed_dw_pre_450C = pan_sediment_dw_pre_450C - pan_weight, na.rm = TRUE) %>%
-  mutate(sed_dw_post_450C = pan_sediment_dw_post450C - pan_weight, na.rm = TRUE) %>%
+  mutate(sed_dw_pre_450C = pan_sed_dw_pre_450C - pan_weight, na.rm = TRUE) %>%
+  mutate(sed_dw_post_450C = pan_sed_dw_post450C - pan_weight, na.rm = TRUE) %>%
   mutate(om_weight = sed_dw_pre_450C - sed_dw_post_450C, na.rm = TRUE) %>%
-  mutate(sed_dw_pre_950C = crucible_sediment_dw_pre_950C - crucible_weight, na.rm = TRUE) %>%
-  mutate(sed_dw_post_950C = crucible_sediment_dw_post_950C - crucible_weight, na.rm = TRUE) %>%
+  mutate(sed_dw_pre_950C = crucible_sed_dw_pre_950C - crucible_weight, na.rm = TRUE) %>%
+  mutate(sed_dw_post_950C = crucible_sed_dw_post_950C - crucible_weight, na.rm = TRUE) %>%
   mutate(im_weight = sed_dw_pre_950C - sed_dw_post_950C) %>%
   mutate(percent_om = (om_weight / sed_dw_pre_450C) * 100, na.rm = TRUE) %>%
   mutate(percent_im = (im_weight / sed_dw_pre_950C) * 100, na.rm = TRUE) %>%
