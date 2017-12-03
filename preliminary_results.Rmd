@@ -12,8 +12,8 @@ library(dplyr); library(tidyr); library(ggplot2); library(DT); library(cowplot);
 theme_set(theme_classic())
 ```
 
-#Importing cleaned .csv file and looking at dataframe
-```{r}
+### First, importing cleaned .csv file and looking at dataframe
+```{r, include = FALSE}
 # read clean file from github
 cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/CLEAN_core_matter.csv", stringsAsFactors = FALSE, header = TRUE)
 
@@ -21,7 +21,8 @@ cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/mas
 str(cr.mat)
 ```
 
-#Remove excess columns (e.g. pan + crucible data recorded prior to final calcualted weights)
+### Remove excess columns 
+#### (e.g. pan + crucible data recorded prior to final calcualted weights)
 ```{r}
 
 # remove pan, crucible, and sediment combo weights not necessary for analysis
@@ -34,8 +35,8 @@ colnames(cr.mat)
 
 
 
-# Plotting
-## Grouped by sea otter zone
+### Plotting
+#### Grouped by sea otter zone
 ```{r fig1, fig.height = 10, fig.width = 8, echo = FALSE, warning = FALSE}
 
 
@@ -72,8 +73,8 @@ plot_im = ggplot(cr.mat_noL06, aes(layer_number, im_density)) +
 plot_grid(plot_om, plot_im, align = "hv", ncol = 2)
 ```
 
-# Mapping
-## From which sites have cores been processed and data entered? 
+### Mapping
+#### From which sites have cores been processed and data entered? 
 ```{r, echo = FALSE, message = FALSE}
 locations = cr.mat_noL06 %>%
   distinct(cr.mat_noL06, latitude, longitude, site) %>%

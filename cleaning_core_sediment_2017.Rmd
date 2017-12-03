@@ -46,8 +46,8 @@ cr.mat = cr.mat %>%
   mutate(sed_dw_pre_950C = crucible_sed_dw_pre_950C - crucible_weight, na.rm = TRUE) %>%
   mutate(sed_dw_post_950C = crucible_sed_dw_post_950C - crucible_weight, na.rm = TRUE) %>%
   mutate(im_weight = sed_dw_pre_950C - sed_dw_post_950C) %>%
-  mutate(percent_om = (om_weight / sed_dw_pre_450C) * 100, na.rm = TRUE) %>%
-  mutate(percent_im = (im_weight / sed_dw_pre_950C) * 100, na.rm = TRUE) %>%
+  mutate(om_percent = (om_weight / sed_dw_pre_450C) * 100, na.rm = TRUE) %>%
+  mutate(im_percent = (im_weight / sed_dw_pre_950C) * 100, na.rm = TRUE) %>%
   mutate(om.im_ratio = om_weight / im_weight, na.rm = TRUE) %>%
   mutate(om_density = om_weight * dry_bulk_density, na.rm = TRUE) %>%
   mutate(im_density = im_weight * dry_bulk_density, na.rm = TRUE)
