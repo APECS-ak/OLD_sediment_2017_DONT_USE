@@ -16,8 +16,19 @@ Import data
 ```{r}
 # datachunk: TAS
 
-cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/RAW_core_matter_2017.csv", stringsAsFactors = FALSE, header = TRUE)
+cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/RAW_core_matter.csv", stringsAsFactors = FALSE, header = TRUE)
 ```
+
+
+Look at data
+```{r}
+str(cr.mat)
+
+nrow(cr.mat)
+
+```
+
+
 
 # Cleaning Data for Analysis
 
@@ -55,7 +66,7 @@ colnames(cr.mat)
 
 
 ```{r}
-write.csv(cr.mat,'CLEAN_core_matter_2017.csv')
+write.csv(cr.mat,'CLEAN_core_matter.csv')
 ```
 
 
@@ -63,21 +74,26 @@ write.csv(cr.mat,'CLEAN_core_matter_2017.csv')
 # READ CLEAN FILE
 
 ```{r}
-cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/CLEAN_core_matter_2017.csv", stringsAsFactors = FALSE, header = TRUE)
+cr.mat <- read.csv("https://raw.githubusercontent.com/APECS-ak/sediment_2017/master/CLEAN_core_matter.csv", stringsAsFactors = FALSE, header = TRUE)
 ```
 
 
 ```{r}
 library(DT)
 
-cr.mat = sg.bio %>% 
- select(-site$L06)
 
-ggplot(cr.mat, aes(layer_number, om_density)) +
-  geom_point() +
-  geom_point() +
+cr.mat_noL06 = cr.mat[-c(1:30),]
+
+cr.mat_noL06$otter_region=factor(cr.mat_noL06$otter_region, levels=c("Low","Mid","High"))
+
+
+
+ggplot(cr.mat_noL06, aes(layer_number, om_density)) +
+  stat_summary(fun.y=mean, geom="point", position="dodge")+
+  stat_summary(fun.data=mean_se, geom="errorbar", position=position_dodge(width=0.90), width=0.2) +
   coord_flip() +
-  facet_wrap(~site, ncol = 1)
+  #geom_errorbar(aes(xmin=om_density-se, ymax=len+se), colour="black", width=.1) +
+  facet_wrap(~otter_region, ncol = 1)
 ```
 
 
