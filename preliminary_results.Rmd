@@ -85,7 +85,7 @@ locations = cr.mat_noL06 %>%
 
 leaflet(locations) %>%
   addTiles() %>%
-  addMarkers(~longitude, ~latitude, popup = ~site)
+  addMarkers(~longitude, ~latitude, popup = ~site, label = ~site)
 ```
 
 
