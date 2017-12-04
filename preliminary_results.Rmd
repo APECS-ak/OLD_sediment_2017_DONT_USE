@@ -23,6 +23,7 @@ str(cr.mat)
 ```
 
 
+
 ### 2. Remove excess columns. <br>
 
 #### (e.g. pan + crucible data recorded prior to final calcualted weights)
@@ -59,24 +60,24 @@ leaflet(locations_all) %>%
 levels=c("Low","Mid","High") # order zones
 
 # plot organic matter
-plot_om_all = ggplot(cr.mat, aes(layer_number, om_density)) +
+plot_om_all = ggplot(cr.mat, aes(core_depth, om_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
   coord_flip() +
   scale_x_reverse() +
-  xlab("Core Depth") +
+  xlab("Core Depth (cm)") +
   ylab("Organic Matter (g cm^3)") +
   #scale_x_continuous(position = "top") +
   #scale_y_continuous(position = "left") +
   facet_wrap(~site, ncol = 1)
 
 # plot inorganic matter
-plot_im_all = ggplot(cr.mat, aes(layer_number, im_density)) +
+plot_im_all = ggplot(cr.mat, aes(core_depth, im_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
   coord_flip() +
   scale_x_reverse() +
-  xlab("Core Depth") +
+  xlab("Core Depth (cm)") +
   ylab("Organic Matter (g cm^3)") +
   #scale_x_continuous(position = "top") +
   #scale_y_continuous(position = "left") +
@@ -118,24 +119,24 @@ cr.mat_noL06 = cr.mat[-c(1:30),] # remove L06 (for now) because organic matter i
 levels=c("Low","Mid","High") # order zones
 
 # plot organic matter
-plot_om_all = ggplot(cr.mat_noL06, aes(layer_number, om_density)) +
+plot_om_all = ggplot(cr.mat_noL06, aes(core_depth, om_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
   coord_flip() +
   scale_x_reverse() +
-  xlab("Core Depth") +
+  xlab("Core Depth (cm)") +
   ylab("Organic Matter (g cm^3)") +
   #scale_x_continuous(position = "top") +
   #scale_y_continuous(position = "left") +
   facet_wrap(~site, ncol = 1)
 
 # plot inorganic matter
-plot_im_all = ggplot(cr.mat_noL06, aes(layer_number, im_density)) +
+plot_im_all = ggplot(cr.mat_noL06, aes(core_depth, im_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
   coord_flip() +
   scale_x_reverse() +
-  xlab("Core Depth") +
+  xlab("Core Depth (cm)") +
   ylab("Organic Matter (g cm^3)") +
   #scale_x_continuous(position = "top") +
   #scale_y_continuous(position = "left") +
@@ -162,24 +163,24 @@ cr.mat_noL06$otter_region=factor(cr.mat_noL06$otter_region, levels=c("Low","Mid"
 
 
 # plot organic matter
-plot_om = ggplot(cr.mat_noL06, aes(layer_number, om_density)) +
+plot_om = ggplot(cr.mat_noL06, aes(core_depth, om_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
   coord_flip() +
   scale_x_reverse() +
-  xlab("Core Depth") +
+  xlab("Core Depth (cm)") +
   ylab("Organic Matter (g cm^3)") +
   #scale_x_continuous(position = "top") +
   #scale_y_continuous(position = "left") +
   facet_wrap(~otter_region, ncol = 1)
 
 #plopt inorganic matter
-plot_im = ggplot(cr.mat_noL06, aes(layer_number, im_density)) +
+plot_im = ggplot(cr.mat_noL06, aes(core_depth, im_density)) +
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
   coord_flip() +
   scale_x_reverse() +
-  xlab("Core Depth") +
+  xlab("Core Depth (cm)") +
   ylab("Inorganic Matter (g cm^3)") +
   #scale_x_continuous(position = "top") +
   #scale_y_continuous(position = "left") +
