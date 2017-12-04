@@ -57,6 +57,15 @@ cr.mat = cr.mat %>%
 colnames(cr.mat)
 ```
 
+```{r}
+# calculate core depth using the layer number (each layer was cut at 2 cm but adjusted using the compaction coefficient)
+cr.mat = cr.mat %>% 
+  mutate(core_depth = layer_number * 2, na.rm = TRUE)
+
+colnames(cr.mat)
+```
+
+
 
 ```{r}
 write.csv(cr.mat,'CLEAN_core_matter.csv')
