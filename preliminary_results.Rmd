@@ -241,31 +241,7 @@ plot_grid(plot_omim_ratio, align = "hv", ncol = 1)
 levels=c("Low","Mid","High") # order zones
 
 # plot organic matter
-plot_DBD_site = ggplot(cr.mat, aes(core_depth, dry_bulk_density)) +
-  stat_summary(fun.y=mean, geom="point")+
-  stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
-  coord_flip() +
-  scale_x_reverse() +
-  xlab("Core Depth (cm)") +
-  ylab("Sediment Dry Bulk Density (g cm^3)") +
-  #scale_x_continuous(position = "top") +
-  #scale_y_continuous(position = "left") +
-  facet_wrap(~site, ncol = 1)
 
-plot_DBD_region = ggplot(cr.mat, aes(core_depth, dry_bulk_density)) +
-  stat_summary(fun.y=mean, geom="point")+
-  stat_summary(fun.data=mean_se, geom="errorbar", width=0.5) +
-  coord_flip() +
-  scale_x_reverse() +
-  xlab("Core Depth (cm)") +
-  ylab("Sediment Dry Bulk Density (g cm^3") +
-  #scale_x_continuous(position = "top") +
-  #scale_y_continuous(position = "left") +
-  facet_wrap(~otter_region, ncol = 1)
-
-
-# organize om and im side-by-side
-plot_grid(plot_DBD_site, plot_DBD_region, align = "hv", ncol = 2)
 ```
 
 
